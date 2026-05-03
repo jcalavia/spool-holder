@@ -1,4 +1,4 @@
-// clip_barra_v13_HEX_FIX.scad
+// clip_barra_v14_HEX_TIGHT.scad
 $fn=120;
 
 // -------- parámetros --------
@@ -7,46 +7,43 @@ holgura = 0.3;
 grosor = 8;
 ancho = 24;
 
-// placa para el triángulo
+// placa
 placa_ancho = 42;
 placa_espesor = 8;
 placa_alto = 50;
 
-// ranura de cierre
+// ranura
 gap = 3;
 
 // tornillería m3
 d_m3 = 3.2;
-tuerca_m3 = 6.3;
+tuerca_m3 = 6.3;   // ENTRE CARAS REAL
 tuerca_h = 2.6;
-clearance = 0.2;
 
-// HEX correcto (entre caras → diámetro OpenSCAD)
-hex_af = tuerca_m3 + clearance;
+// 🔴 HEX CORRECTO (sin inflar AF)
+hex_af = tuerca_m3;
 hex_d = 2 * hex_af / sqrt(3);
+
+// ajuste fino real (CLAVE)
+hex_d_adjusted = hex_d + 0.10;
 
 // posiciones
 z_bolts = [ancho*0.33, ancho*0.66];
 y_tornillo = barra/2 + grosor + 3;
-
-// offset lateral orejas (ajustado a tu geometría)
 oreja_offset = 12;
 
 
 // -------- modelo --------
 difference() {
 
-// ====== SÓLIDOS ======
+// ===== sólidos =====
 union() {
 
-    // anillo
     cylinder(h=ancho, d=barra + 2*grosor + holgura);
 
-    // placa frontal
     translate([-placa_ancho/2, -(barra/2 + grosor + placa_espesor), 0])
         cube([placa_ancho, placa_espesor, placa_alto]);
 
-    // refuerzos
     hull() {
         translate([-placa_ancho/2, -(barra/2 + grosor), 0])
             cube([4,2,ancho]);
@@ -60,60 +57,55 @@ union() {
             cylinder(h=ancho, d=12);
     }
 
-    // orejas exteriores
     for (z = z_bolts) {
         translate([-10, y_tornillo-4, z-6])
             cube([20, 8, 12]);
     }
 }
 
-// ====== HUECOS ======
+// ===== huecos =====
 
-// interior barra
+// tubo interior
 translate([0,0,-1])
     cylinder(h=ancho+2, d=barra + holgura);
 
-// ranura cierre
+// ranura
 translate([-gap/2, barra/2, 0])
     cube([gap, 20, ancho]);
 
 
-// ===============================
-// OREJAS → HEX EXTERIOR + TUERCA + PASO CIRCULAR
-// ===============================
+// ===== OREJAS =====
 for (z = z_bolts) {
 
-    // PASO INTERIOR (funcional)
+    // paso tornillo (circular)
     translate([0, y_tornillo, z])
     rotate([0,90,0])
-        cylinder(h=200, d=d_m3 + clearance, center=true);
+        cylinder(h=200, d=d_m3 + 0.2, center=true);
 
-    // HEX EXTERIOR (visible)
+    // hex exterior visible
     translate([-oreja_offset, y_tornillo, z])
     rotate([0,90,0])
-        cylinder(h=4, d=hex_d, $fn=6);
+        cylinder(h=4, d=hex_d_adjusted, $fn=6);
 
-    // HEX INTERIOR (tuerca cautiva)
+    // hex interior (tuerca)
     translate([+oreja_offset, y_tornillo, z])
     rotate([0,90,0])
-        cylinder(h=tuerca_h + 0.6, d=hex_d, $fn=6);
+        cylinder(h=tuerca_h + 0.6, d=hex_d_adjusted, $fn=6);
 }
 
 
-// ===============================
-// PLACA → HEX COMPLETO
-// ===============================
+// ===== PLACA =====
 for (z=[15,35]) {
 
-    // agujero pasante hex
+    // agujero hex
     translate([0, -(barra/2 + grosor + placa_espesor/2), z])
     rotate([90,0,0])
-        cylinder(h=placa_espesor+2, d=hex_d, $fn=6);
+        cylinder(h=placa_espesor+2, d=hex_d_adjusted, $fn=6);
 
-    // cavidad trasera hex
+    // cavidad trasera
     translate([0, -(barra/2 + grosor + placa_espesor + 0.2), z])
     rotate([90,0,0])
-        cylinder(h=tuerca_h + 0.6, d=hex_d, $fn=6);
+        cylinder(h=tuerca_h + 0.6, d=hex_d_adjusted, $fn=6);
 }
 
 }
