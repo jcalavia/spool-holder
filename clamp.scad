@@ -1,13 +1,11 @@
-// clip_barra_v19_FINAL_v2.scad
+// clip_barra_v19_FINAL_STL_FIX.scad
 $fn=120;
 
 // =====================================================
 // CONFIGURACIÓN
 // =====================================================
 
-// elegir:
-// "derecha"  -> hex visible derecha
-// "izquierda" -> hex visible izquierda
+// "derecha" o "izquierda"
 lado_tuerca = "izquierda";
 
 
@@ -174,24 +172,34 @@ difference() {
                 center = true
             );
 
-        // HEX EXTERIOR
-        translate([hex_ext_x, y_tornillo, z])
+        // =============================================
+        // HEX EXTERIOR (FIX STL)
+        // =============================================
+        translate([
+            hex_ext_x - 4,
+            y_tornillo,
+            z
+        ])
         rotate([0,90,0])
             cylinder(
-                h = 4,
+                h = 8,
                 d = hex_d,
-                $fn = 6,
-                center = true
+                $fn = 6
             );
 
-        // CAPTURA INTERIOR
-        translate([hex_int_x, y_tornillo, z])
+        // =============================================
+        // CAPTURA INTERIOR (FIX STL)
+        // =============================================
+        translate([
+            hex_int_x,
+            y_tornillo,
+            z
+        ])
         rotate([0,90,0])
             cylinder(
-                h = tuerca_h + 0.2,
+                h = tuerca_h + 1,
                 d = hex_d,
-                $fn = 6,
-                center = true
+                $fn = 6
             );
     }
 
