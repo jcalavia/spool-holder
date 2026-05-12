@@ -1,10 +1,11 @@
 // striangulo_integrado_v6.scad
+// Versión aligerada: estructura triangular hueca con aristas reforzadas
 $fn=80;
 
 // =====================
 // CONFIGURACIÓN
 // =====================
-lado = "other"; // "fijo" o "libre"
+lado = "fijo"; // "fijo" o "libre"
 diam_eje = (lado == "fijo") ? 8.2 : 8.5;
 
 
@@ -28,12 +29,24 @@ radio_bloque = bloque/2;
 
 altura = (altura_objetivo - offset_abrazadera) - 25;
 
+// diámetro de las aristas del triángulo
+diam_arista = 14;
+// diámetro de los nodos (vértices)
+diam_nodo = 26;
+
 // ---------------------
-// TRIÁNGULO
+// MÓDULOS DEL TRIÁNGULO
 // ---------------------
 module nodo(x,y){
     translate([x,y,0])
-        cylinder(h=espesor, d=26);
+        cylinder(h=espesor, d=diam_nodo);
+}
+
+module arista(x1, y1, x2, y2){
+    hull(){
+        translate([x1, y1, 0]) cylinder(h=espesor, d=diam_arista);
+        translate([x2, y2, 0]) cylinder(h=espesor, d=diam_arista);
+    }
 }
 
 
@@ -44,12 +57,21 @@ difference(){
 
     union(){
 
-        // TRIÁNGULO (igual que el tuyo)
-        hull(){
-            nodo(0,0);
-            nodo(prof,0);
-            nodo(prof/2,altura);
-        }
+        // ============================================
+        // TRIÁNGULO ESTRUCTURAL HUECO
+        // En lugar de un hull() macizo, usamos vigas
+        // en las aristas y nodos reforzados en los vértices.
+        // ============================================
+
+        // NODOS (vértices reforzados)
+        nodo(0,0);
+        nodo(prof,0);
+        nodo(prof/2,altura);
+
+        // ARISTAS (vigas entre nodos)
+        arista(0,0, prof,0);          // arista base
+        arista(0,0, prof/2,altura);   // arista lateral izquierda
+        arista(prof,0, prof/2,altura); // arista lateral derecha
 
         // BASE DELANTERA (igual)
         translate([-ancho_base/2, -esp_base - espesor, 0])
@@ -75,7 +97,7 @@ difference(){
         translate([prof/2 - radio_bloque, altura - radio_bloque, 0])
             cube([bloque,bloque,espesor]);
 
-        // NERVIOS (se mantienen)
+        // NERVIOS (se mantienen para rigidez)
         hull(){
             translate([10,0,espesor])
                 cube([6,6,6]);
