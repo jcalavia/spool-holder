@@ -1,2 +1,7 @@
 *.stl
 **/.DS_Store
+
+# Temp / output dirs
+stl/
+dist/
+.tmp/

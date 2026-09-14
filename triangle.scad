@@ -29,13 +29,19 @@ radio_bloque = bloque/2;
 
 altura = (altura_objetivo - offset_abrazadera) - 25;
 
-// guía de filamento (solo lado libre)
-spool_separation = 85;       // separación entre las dos piezas triangulares
-guide_z = spool_separation / 2;  // centro del ancho de la bobina
-eyelet_pos = [55, 110];      // [X, Y] del ojal (hacia el frente desde el eje)
-eyelet_id = 5;               // diámetro interior del ojal (para filamento 1.75mm)
-eyelet_ptfe_id = 4.1;        // diámetro para insertar tubo PTFE (4mm OD) a presión
-arm_d = 10;                  // diámetro del brazo guía
+// guía de filamento y poste vertical (solo lado libre)
+spool_separation = 85;
+guide_z = espesor + spool_separation / 2 - post_w;
+eyelet_pos = [19, 140];
+eyelet_id = 5;
+eyelet_ptfe_id = 4.1;
+arm_d = 10;
+
+// poste vertical y cola de milano (solo lado libre)
+post_w = 14;
+post_x = 7;
+dovetail_top = 140;
+dovetail_bottom = 125;
 
 // diámetro de las aristas del triángulo
 diam_arista = 14;
@@ -58,36 +64,11 @@ module arista(x1, y1, x2, y2){
 }
 
 // ---------------------
-// GUÍA DE FILAMENTO (solo lado libre)
+// POSTE VERTICAL (solo lado libre)
 // ---------------------
-module filament_guide(){
-    // Brazo curvo desde el soporte del eje hasta la parte inferior del anillo
-    // (offset Y = -8 para conectar por debajo del ojal sin obstruir el agujero)
-    hull(){
-        translate([prof/2, altura, 0])
-            cylinder(d=arm_d, h=1);
-        translate([eyelet_pos[0], eyelet_pos[1] - 8, guide_z])
-            sphere(d=arm_d);
-    }
-
-    // Ojal guía con agujero escalonado en dirección X
-    // - Lado +X (hacia la bobina): Ø5mm  → entrada del filamento 1.75mm
-    // - Lado -X (hacia el frente):  Ø4.1mm → salida para tubo PTFE 4mm OD
-    translate([eyelet_pos[0], eyelet_pos[1], guide_z])
-        difference(){
-            rotate([0, 90, 0])
-                cylinder(d=arm_d*1.2, h=8, center=true);
-
-            // Entrada (bobina, lado +X): filamento 1.75mm
-            translate([2, 0, 0])
-            rotate([0, 90, 0])
-                cylinder(d=eyelet_id, h=4.1, center=true);
-
-            // Salida (frente, lado -X): tubo PTFE 4mm
-            translate([-2, 0, 0])
-            rotate([0, 90, 0])
-                cylinder(d=eyelet_ptfe_id, h=4.1, center=true);
-        }
+module vertical_post(){
+    translate([post_x, 64, guide_z])
+        cube([post_w, 152, post_w], center=true);
 }
 
 
@@ -114,10 +95,10 @@ difference(){
         arista(0,0, prof/2,altura);   // arista lateral izquierda
         arista(prof,0, prof/2,altura); // arista lateral derecha
 
-        // BASE DELANTERA (igual)
+        // BASE DELANTERA (más alta en lado libre para alojar el poste)
         translate([-ancho_base/2, -esp_base - espesor, 0])
         difference(){
-            cube([ancho_base, esp_base, alto_base]);
+            cube([ancho_base, esp_base, lado == "libre" ? 65 : alto_base]);
             for (z=[15,35])
             translate([ancho_base/2, esp_base/2, z])
             rotate([90,0,0])
@@ -155,9 +136,9 @@ difference(){
                 cube([6,6,6]);
         }
 
-        // GUÍA DE FILAMENTO (solo lado libre)
+        // POSTE VERTICAL (solo lado libre)
         if (lado == "libre") {
-            filament_guide();
+            vertical_post();
         }
     }
 
@@ -167,4 +148,17 @@ difference(){
     // =====================
     translate([prof/2, altura, espesor/2])
         cylinder(h=bloque+6, d=diam_eje, center=true);
+
+    // =====================
+    // RANURA COLA DE MILANO (solo lado libre)
+    // Hull-based: extruye horizontalmente de dovetail_bottom a dovetail_top
+    // =====================
+    if (lado == "libre") {
+        hull() {
+            translate([10, dovetail_bottom, guide_z - 5])
+                cube([0.1, dovetail_top - dovetail_bottom, 10]);
+            translate([14, dovetail_bottom, guide_z - 4])
+                cube([0.1, dovetail_top - dovetail_bottom, 8]);
+        }
+    }
 }
