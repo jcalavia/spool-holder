@@ -3,10 +3,10 @@ $fn=160;
 
 // --- Parameters ---
 outer = 55.6;        // diámetro exterior (Creality)
-bearing = 22.15;     // alojamiento 608
+bearing = 22.5;      // alojamiento 608 (22mm + 0.5mm tolerancia, igual que axle.scad)
 width = 70;          // largo total
-bearing_depth = 7.2; // profundidad rodamiento
-eje = 8.2;           // paso eje
+bearing_depth = 7.5; // profundidad rodamiento
+eje = 8.2;           // paso eje (agujero varilla M8)
 
 // Refuerzo central (reducido para ahorrar filamento)
 refuerzo = 2.0;            // espesor anillo interno (antes 3)
@@ -31,13 +31,14 @@ difference() {
       cylinder(h=chamfer+0.01, d1=outer, d2=outer-chamfer*2);
   }
 
-  // Rodamiento lado 1
-  translate([0,0,0])
-    cylinder(h=bearing_depth, d=bearing);
+  // Rodamiento lado 1 (pasa del chaflán inferior para que el alojamiento
+  // quede abierto en la cara: -0.02 .. bearing_depth)
+  translate([0,0,-0.02])
+    cylinder(h=bearing_depth+0.02, d=bearing);
 
-  // Rodamiento lado 2
+  // Rodamiento lado 2 (llega hasta el chaflán superior: abierto en la cara)
   translate([0,0,width-bearing_depth])
-    cylinder(h=bearing_depth, d=bearing);
+    cylinder(h=bearing_depth+0.02, d=bearing);
 
   // Paso eje
   translate([0,0,-1])
