@@ -3,7 +3,7 @@ name: Render STLs
 on:
   push:
     paths:
-      - axle.scad
+      - 'designs/*.scad'
       - Makefile
       - .github/workflows/render.yml
   workflow_dispatch:
@@ -20,10 +20,10 @@ jobs:
           sudo apt-get install -y openscad
 
       - name: Build all STLs
-        run: make
+        run: make all
 
       - name: Upload STL artifacts
         uses: actions/upload-artifact@v4
         with:
           name: stls
-          path: axle_*.stl
+          path: stl/

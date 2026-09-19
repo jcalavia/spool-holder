@@ -1,2 +1,57 @@
 # spool-holder
-Filament Spool Holder
+
+Filament spool holder for Creality Ender 3 V3 Plus. Holds 200 g and 1 kg spools on a 608ZZ bearing with an M8 steel rod axle.
+
+## Description
+
+This repo generates the axle, clamps, crosspiece, and triangular support for a roller-style spool holder. The axle uses a 608ZZ bearing (22 mm OD × 7 mm width) press-fitted into a printed sleeve. Two printed clamps grip the printer frame's 19.2 mm aluminium extrusion, and a hollow triangular brace provides vertical support.
+
+### Parts
+
+| Part | File | Notes |
+|------|------|-------|
+| Axle (1 kg) | `designs/axle.scad` | Parametric; `width=76` for 1 kg spools |
+| Axle (1 kg light) | `designs/axle_1kg_light.scad` | Thin-tube middle — prints as walls, **~35 g** at 15–20 % infill. **Print standing on end** (bearing face down) |
+| Axle (1 kg light v2) | `designs/axle_1kg_light_v2.scad` | Earlier lightened variant (~54 g printed); kept as reference |
+| Axle (200 g) | `designs/axle.scad` | Parametric; `width=48` for 200 g spools |
+| Axle test piece | `designs/axle_test.scad` | Minimal print to verify 608ZZ fit |
+| Clamp (left) | `designs/clamp.scad` | `lado_tuerca="izquierda"` |
+| Clamp (right) | `designs/clamp.scad` | `lado_tuerca="derecha"` |
+| Triangle support | `designs/triangle.scad` | `lado="fijo"` (8.2 mm) or `"libre"` (8.5 mm) |
+| Crosspiece | `designs/crosspiece.scad` | Connects clamps to the axle |
+
+> **For contributors**: design decisions, invariants, and the verification workflow live in [`AGENTS.md`](AGENTS.md).
+
+## Print Settings
+
+| Setting | Value |
+|---------|-------|
+| Layer height | 0.2 mm |
+| Infill | 30–40 % (axle), 20 % (triangle), 40 % (clamps), 15–20 % (light axles — wall-based) |
+| Supports | No |
+| Orientation | Flat on build plate; **light axles standing on end** (bearing face down) |
+| Perimeters | 3 |
+
+**Recommended filament**: PLA or PETG. The axle sleeve benefits from higher infill for rigidity.
+
+## Rendering
+
+```bash
+cd spool-holder
+make all            # Render all STLs into stl/
+make clean          # Remove stl/ and dist/
+```
+
+Requires [OpenSCAD](https://openscad.org/) (macOS auto-discovered if installed in `/Applications`).
+
+## Assembly
+
+1. Press-fit the 608ZZ bearing into each end of the axle sleeve.
+2. Slide the M8 rod through the axle and both bearings.
+3. Attach the clamps to the printer frame extrusion.
+4. Mount the crosspiece between clamps.
+5. Insert the axle into the crosspiece and secure with the triangular brace.
+
+## License
+
+MIT
