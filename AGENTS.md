@@ -76,6 +76,10 @@ STL naming: lowercase with underscores; parametric variants append the override 
 - `$fn` ≥ 64 for renders; 160 for round parts in final designs (keep as-is on light axles).
 - Comments: Spanish or English both fine in `.scad`; docs and commits in English.
 - After ANY geometry edit: re-render, re-volume, re-check pockets (see above) — then report numbers to the user.
+- Docs split: **README.md** holds maker-facing facts (parts table notes, expected printed
+  weights, orientation, slicer settings); **AGENTS.md** holds author-facing knowledge
+  (design decisions, invariants, verification). Do not state the same fact in both —
+  cross-reference instead (README points to AGENTS; AGENTS points at README's Print Settings).
 - `.scad` sources live in `designs/`; render outputs land in `stl/` (gitignored).
 - CI trigger pattern is `designs/*.scad` — keep it in sync if paths change.
 - Commits: semantic English messages (`feat:`/`fix:`/`chore:`/`test:`), one concern per commit;
@@ -83,8 +87,9 @@ STL naming: lowercase with underscores; parametric variants append the override 
 - The bearer of truth for printed-weight expectations is the **scale**, not the slicer:
   when a claimed improvement is based on CAD volume alone, say so and flag the ~0.30 factor.
 
-## Printer / Slicer Notes
+## Print Settings Live in README.md
 
-- No supports needed for any part (orientation chosen accordingly).
-- Axle: 30–40 % infill, 3 perimeters (the lights still print fine at 15–20 % — wall-based).
-- Clamps: 40 % infill. Triangle: 20 %.
+Slicer settings (infill, perimeters, orientation) are canonical in **README.md → Print
+Settings** — do not duplicate them here. Keep that table in sync whenever a geometry
+change affects how a part prints (notably: thin-tube parts must stand on end —
+the light axle orientations are per-variant and documented there).

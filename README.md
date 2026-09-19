@@ -11,8 +11,8 @@ This repo generates the axle, clamps, crosspiece, and triangular support for a r
 | Part | File | Notes |
 |------|------|-------|
 | Axle (1 kg) | `designs/axle.scad` | Parametric; `width=76` for 1 kg spools |
-| Axle (1 kg light) | `designs/axle_1kg_light.scad` | Thin-tube middle: ~65 % less material, real weight saving at any infill. **Print standing on end** (no supports) |
-| Axle (1 kg light v2) | `designs/axle_1kg_light_v2.scad` | Previous variant: deep grooves + hexagonal bore (143.2 cm³) |
+| Axle (1 kg light) | `designs/axle_1kg_light.scad` | Thin-tube middle — prints as walls, **~35 g** at 15–20 % infill. **Print standing on end** (bearing face down) |
+| Axle (1 kg light v2) | `designs/axle_1kg_light_v2.scad` | Earlier lightened variant (~54 g printed); kept as reference |
 | Axle (200 g) | `designs/axle.scad` | Parametric; `width=48` for 200 g spools |
 | Axle test piece | `designs/axle_test.scad` | Minimal print to verify 608ZZ fit |
 | Clamp (left) | `designs/clamp.scad` | `lado_tuerca="izquierda"` |
@@ -20,14 +20,16 @@ This repo generates the axle, clamps, crosspiece, and triangular support for a r
 | Triangle support | `designs/triangle.scad` | `lado="fijo"` (8.2 mm) or `"libre"` (8.5 mm) |
 | Crosspiece | `designs/crosspiece.scad` | Connects clamps to the axle |
 
+> **For contributors**: design decisions, invariants, and the verification workflow live in [`AGENTS.md`](AGENTS.md).
+
 ## Print Settings
 
 | Setting | Value |
 |---------|-------|
 | Layer height | 0.2 mm |
-| Infill | 30–40 % (axle), 20 % (triangle), 40 % (clamps) |
+| Infill | 30–40 % (axle), 20 % (triangle), 40 % (clamps), 15–20 % (light axles — wall-based) |
 | Supports | No |
-| Orientation | Flat on build plate |
+| Orientation | Flat on build plate; **light axles standing on end** (bearing face down) |
 | Perimeters | 3 |
 
 **Recommended filament**: PLA or PETG. The axle sleeve benefits from higher infill for rigidity.
