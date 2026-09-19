@@ -20,6 +20,7 @@ STLS := \
 # Standalone models
 STLS += \
 	$(STL_DIR)/axle_1kg_light.stl \
+	$(STL_DIR)/axle_1kg_light_v2.stl \
 	$(STL_DIR)/axle_test.stl
 
 # Parametric variants from clamp.scad / triangle.scad
@@ -42,6 +43,10 @@ $(STL_DIR)/axle_200g.stl: axle.scad
 	$(OPENSCAD) -o "$@" -D 'width=48' "$<"
 
 $(STL_DIR)/axle_1kg_light.stl: axle_1kg_light.scad
+	@mkdir -p $(STL_DIR)
+	$(OPENSCAD) -o "$@" "$<"
+
+$(STL_DIR)/axle_1kg_light_v2.stl: axle_1kg_light_v2.scad
 	@mkdir -p $(STL_DIR)
 	$(OPENSCAD) -o "$@" "$<"
 

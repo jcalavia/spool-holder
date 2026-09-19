@@ -11,7 +11,8 @@ This repo generates the axle, clamps, crosspiece, and triangular support for a r
 | Part | File | Notes |
 |------|------|-------|
 | Axle (1 kg) | `axle.scad` | Parametric; `width=76` for 1 kg spools |
-| Axle (1 kg light) | `axle_1kg_light.scad` | Lightened variant with 9 % less filament |
+| Axle (1 kg light) | `axle_1kg_light.scad` | Thin-tube middle: ~65 % less material, real weight saving at any infill. **Print standing on end** (no supports) |
+| Axle (1 kg light v2) | `axle_1kg_light_v2.scad` | Previous variant: deep grooves + hexagonal bore (143.2 cm³) |
 | Axle (200 g) | `axle.scad` | Parametric; `width=48` for 200 g spools |
 | Axle test piece | `axle_test.scad` | Minimal print to verify 608ZZ fit |
 | Clamp (left) | `clamp.scad` | `lado_tuerca="izquierda"` |
