@@ -12,7 +12,7 @@ endif
 
 STL_DIR := stl
 
-# Parametric variants from axle.scad (width via -D override)
+# Parametric variants from designs/axle.scad (width via -D override)
 STLS := \
 	$(STL_DIR)/axle_1kg.stl \
 	$(STL_DIR)/axle_200g.stl
@@ -23,7 +23,7 @@ STLS += \
 	$(STL_DIR)/axle_1kg_light_v2.stl \
 	$(STL_DIR)/axle_test.stl
 
-# Parametric variants from clamp.scad / triangle.scad
+# Parametric variants from designs/clamp.scad / designs/triangle.scad
 STLS += \
 	$(STL_DIR)/clamp_izquierda.stl \
 	$(STL_DIR)/clamp_derecha.stl \
@@ -34,39 +34,39 @@ STLS += \
 
 all: $(STLS)
 
-$(STL_DIR)/axle_1kg.stl: axle.scad
+$(STL_DIR)/axle_1kg.stl: designs/axle.scad
 	@mkdir -p $(STL_DIR)
 	$(OPENSCAD) -o "$@" -D 'width=76' "$<"
 
-$(STL_DIR)/axle_200g.stl: axle.scad
+$(STL_DIR)/axle_200g.stl: designs/axle.scad
 	@mkdir -p $(STL_DIR)
 	$(OPENSCAD) -o "$@" -D 'width=48' "$<"
 
-$(STL_DIR)/axle_1kg_light.stl: axle_1kg_light.scad
+$(STL_DIR)/axle_1kg_light.stl: designs/axle_1kg_light.scad
 	@mkdir -p $(STL_DIR)
 	$(OPENSCAD) -o "$@" "$<"
 
-$(STL_DIR)/axle_1kg_light_v2.stl: axle_1kg_light_v2.scad
+$(STL_DIR)/axle_1kg_light_v2.stl: designs/axle_1kg_light_v2.scad
 	@mkdir -p $(STL_DIR)
 	$(OPENSCAD) -o "$@" "$<"
 
-$(STL_DIR)/axle_test.stl: axle_test.scad
+$(STL_DIR)/axle_test.stl: designs/axle_test.scad
 	@mkdir -p $(STL_DIR)
 	$(OPENSCAD) -o "$@" "$<"
 
-$(STL_DIR)/clamp_izquierda.stl: clamp.scad
+$(STL_DIR)/clamp_izquierda.stl: designs/clamp.scad
 	@mkdir -p $(STL_DIR)
 	$(OPENSCAD) -o "$@" -D 'lado_tuerca="izquierda"' "$<"
 
-$(STL_DIR)/clamp_derecha.stl: clamp.scad
+$(STL_DIR)/clamp_derecha.stl: designs/clamp.scad
 	@mkdir -p $(STL_DIR)
 	$(OPENSCAD) -o "$@" -D 'lado_tuerca="derecha"' "$<"
 
-$(STL_DIR)/triangle_8.2.stl: triangle.scad
+$(STL_DIR)/triangle_8.2.stl: designs/triangle.scad
 	@mkdir -p $(STL_DIR)
 	$(OPENSCAD) -o "$@" -D 'lado="fijo"' "$<"
 
-$(STL_DIR)/triangle_8.5.stl: triangle.scad
+$(STL_DIR)/triangle_8.5.stl: designs/triangle.scad
 	@mkdir -p $(STL_DIR)
 	$(OPENSCAD) -o "$@" -D 'lado="libre"' "$<"
 

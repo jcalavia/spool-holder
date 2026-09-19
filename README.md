@@ -10,15 +10,15 @@ This repo generates the axle, clamps, crosspiece, and triangular support for a r
 
 | Part | File | Notes |
 |------|------|-------|
-| Axle (1 kg) | `axle.scad` | Parametric; `width=76` for 1 kg spools |
-| Axle (1 kg light) | `axle_1kg_light.scad` | Thin-tube middle: ~65 % less material, real weight saving at any infill. **Print standing on end** (no supports) |
-| Axle (1 kg light v2) | `axle_1kg_light_v2.scad` | Previous variant: deep grooves + hexagonal bore (143.2 cm³) |
-| Axle (200 g) | `axle.scad` | Parametric; `width=48` for 200 g spools |
-| Axle test piece | `axle_test.scad` | Minimal print to verify 608ZZ fit |
-| Clamp (left) | `clamp.scad` | `lado_tuerca="izquierda"` |
-| Clamp (right) | `clamp.scad` | `lado_tuerca="derecha"` |
-| Triangle support | `triangle.scad` | `lado="fijo"` (8.2 mm) or `"libre"` (8.5 mm) |
-| Crosspiece | `crosspiece.scad` | Connects clamps to the axle |
+| Axle (1 kg) | `designs/axle.scad` | Parametric; `width=76` for 1 kg spools |
+| Axle (1 kg light) | `designs/axle_1kg_light.scad` | Thin-tube middle: ~65 % less material, real weight saving at any infill. **Print standing on end** (no supports) |
+| Axle (1 kg light v2) | `designs/axle_1kg_light_v2.scad` | Previous variant: deep grooves + hexagonal bore (143.2 cm³) |
+| Axle (200 g) | `designs/axle.scad` | Parametric; `width=48` for 200 g spools |
+| Axle test piece | `designs/axle_test.scad` | Minimal print to verify 608ZZ fit |
+| Clamp (left) | `designs/clamp.scad` | `lado_tuerca="izquierda"` |
+| Clamp (right) | `designs/clamp.scad` | `lado_tuerca="derecha"` |
+| Triangle support | `designs/triangle.scad` | `lado="fijo"` (8.2 mm) or `"libre"` (8.5 mm) |
+| Crosspiece | `designs/crosspiece.scad` | Connects clamps to the axle |
 
 ## Print Settings
 

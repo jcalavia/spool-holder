@@ -3,7 +3,7 @@ name: Render STLs
 on:
   push:
     paths:
-      - '*.scad'
+      - 'designs/*.scad'
       - Makefile
       - .github/workflows/render.yml
   workflow_dispatch:
